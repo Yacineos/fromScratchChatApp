@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SocketService } from '../socket.service';
-
+import { Router } from '@angular/router'
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -11,14 +11,22 @@ export class AuthComponent {
   public username! : string ;
   public room! : string ;
 
-  constructor(private socketService: SocketService){
+  constructor(private socketService: SocketService , private router: Router){
     this.room = "room name";
     this.username = "userame";
+  }
+
+  ngOnInit(): void {
   }
   
 
   joinRoom(){
-    this.socketService.userJoinRoom(this.username,this.room);
+  sessionStorage.setItem('username', this.username);
+  sessionStorage.setItem('room', this.room);
+
+    //this.socketService.userJoinRoom(this.username,this.room);
+    
+    this.router.navigate(['/chat']);
   }
 
 }

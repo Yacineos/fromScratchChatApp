@@ -1,20 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {io , Socket} from 'socket.io-client';
+import {ServerToClientEvents , ClientToServerEvents} from '../../../interfaces/socket-events';
 
-interface ServerToClientEvents {
-  noArg: () => void;
-  basicEmit: (a: number, b: string, c: Buffer) => void;
-  withAck: (d: string, callback: (e: number) => void) => void;
-  userJoined: (message: string) => void ;
-}
-
-interface ClientToServerEvents {
-  hello: () => void;
-  joinRoom: (username: string , room :string) => void;
-}
-
-
+@Injectable({ providedIn: 'root' })
 /*
   this service will provide the necessary function to :
     - join a room 
@@ -28,14 +17,59 @@ interface ClientToServerEvents {
 export class SocketService {
   private url = 'http://localhost:3000'; // your server url
   private socket: Socket<ServerToClientEvents, ClientToServerEvents> ;
-  
+  private usersListUpdate: Subject<string[]> = new Subject<string[]>();
+  private message: string = " ";
   constructor() { 
     this.socket = io(this.url);
+    this.setupListeners(); // Set up listeners for socket events
   }
 
-  public userJoinRoom(username: string , room: string): void {
-      this.socket.emit("joinRoom", username , room);
+  // Method to set up listeners for socket events
+  private setupListeners(): void {
+    this.socket.on("userJoined", (message: string) => {
+      //this.usersListUpdate.next(usersList); // Emit updated user list
+      console.log(message);
+    });
+
+    // Add other event listeners as needed
   }
+
+  // Public method to access the usersList as an Observable
+  public getUsersListUpdate(): Observable<string[]> {
+    return this.usersListUpdate.asObservable();
+  }
+
+
+  /*
+    makes the current user (username) join the room (room) if it exist 
+    if it doesn't exist it will be created 
+  */
+  public userJoinRoom(username: string , room: string): void {
+    // add the new user to the list of current users 
+
+    // join room
+    this.socket.emit("joinRoom", username , room);
+  }
+
+
+  /*
+    sends a string @message passed into the parameter of the function 
+    to all users connected to the @param room 
+  */
+  public sendMessage( message: string ){
+    this.socket.emit("message",`${message}`)
+  }
+
+  /*
+    inform other users that I disconnected
+  */
+  disconnect(username: string){
+    this.socket.emit("left", username);
+    this.socket.disconnect();
+  }
+  
+
+  
 
 
 }

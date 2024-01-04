@@ -1,14 +1,17 @@
 <div id="chat-container">
+    <button id="disconnect" (click)="disconnect()">
+        disconnect
+    </button>
     <div id="users-list">
         Users in room:
         <ul id="users">
-        </ul>
+            <li *ngFor="let user of usersList">{{ user }}</li>        </ul>
     </div>
     <div id="message-display">
         <ul id="messages"></ul>
     </div>
     <div id="input-area">
-        <input type="text" id="message-input" placeholder="message">
-        <button id="send-message">Send</button>
+        <input [(ngModel)]="message" [ngModelOptions]="{ standalone: true }" type="text" id="message-input" placeholder="message">
+        <button id="send-message" (click)="sendMessage()">Send</button>
     </div>
 </div>
