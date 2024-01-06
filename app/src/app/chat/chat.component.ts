@@ -1,18 +1,21 @@
 import { Component } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { Router } from '@angular/router';
-
+import { Subscription } from 'rxjs';
+import {User} from '../../../../interfaces/user';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent {
-  
   message! : string ;
-  usersList : string[] = [];
+  messages: string[];
+  usersList : User[] = [];
+  private userJoinedSubscription!: Subscription ;
+  private userListSubscription!: Subscription;
   constructor(private socketService: SocketService, private router: Router){
-
+    this.messages = [];
   }
 
   
@@ -26,9 +29,15 @@ export class ChatComponent {
       this.router.navigate(['/']);
     }
 
-    this.socketService.getUsersListUpdate().subscribe(usersList => {
+    this.userListSubscription = this.socketService.usersList$.subscribe(usersList => {
       this.usersList = usersList;
-    });
+    })
+
+
+  }
+
+  ngOnDestroy(){
+    this.userListSubscription.unsubscribe();
   }
   sendMessage(){
     this.socketService.sendMessage(this.message);

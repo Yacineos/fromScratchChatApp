@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {io , Socket} from 'socket.io-client';
 import {ServerToClientEvents , ClientToServerEvents} from '../../../interfaces/socket-events';
+import { User } from '../../../interfaces/user';
 
 @Injectable({ providedIn: 'root' })
 /*
@@ -17,36 +18,25 @@ import {ServerToClientEvents , ClientToServerEvents} from '../../../interfaces/s
 export class SocketService {
   private url = 'http://localhost:3000'; // your server url
   private socket: Socket<ServerToClientEvents, ClientToServerEvents> ;
-  private usersListUpdate: Subject<string[]> = new Subject<string[]>();
-  private message: string = " ";
+  private messages: string= " ";
+  private userJoinedSource = new Subject<string>();
+  userJoined$ = this.userJoinedSource.asObservable();
+  private usersListSource = new Subject<User[]>();
+  usersList$ = this.usersListSource.asObservable();
+
   constructor() { 
     this.socket = io(this.url);
-    this.setupListeners(); // Set up listeners for socket events
-  }
-
-  // Method to set up listeners for socket events
-  private setupListeners(): void {
-    this.socket.on("userJoined", (message: string) => {
-      //this.usersListUpdate.next(usersList); // Emit updated user list
-      console.log(message);
+    this.socket.on('usersList', (usersList: User[]) => {
+      this.usersListSource.next(usersList);
     });
-
+  }
     // Add other event listeners as needed
-  }
-
-  // Public method to access the usersList as an Observable
-  public getUsersListUpdate(): Observable<string[]> {
-    return this.usersListUpdate.asObservable();
-  }
-
 
   /*
     makes the current user (username) join the room (room) if it exist 
     if it doesn't exist it will be created 
   */
   public userJoinRoom(username: string , room: string): void {
-    // add the new user to the list of current users 
-
     // join room
     this.socket.emit("joinRoom", username , room);
   }
@@ -65,7 +55,6 @@ export class SocketService {
   */
   disconnect(username: string){
     this.socket.emit("left", username);
-    this.socket.disconnect();
   }
   
 

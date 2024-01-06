@@ -1,10 +1,9 @@
+import {User} from "./user";
 export interface ServerToClientEvents {
-    noArg: () => void;
-    basicEmit: (a: number, b: string, c: Buffer) => void;
-    withAck: (d: string, callback: (e: number) => void) => void;
     userJoined: (message: string) => void ;
     message: (message:string) => void;
     left: (message: string)=> void;
+    usersList: (usersList:User[]) => void ;
   }
   
 export interface ClientToServerEvents {

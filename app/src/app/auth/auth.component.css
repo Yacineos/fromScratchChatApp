@@ -1,0 +1,75 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0; /* Reset default margin */
+    background-color: #121E24;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the login container */
+    font-family: 'Arial', sans-serif; /* Example font */
+}
+
+img {
+    height: 10rem;
+    width: 10rem;
+    border-radius: 30%;
+    margin-top: 2rem; /* Add some spacing at the top */
+}
+
+#login-container {
+    background-color: #16242D;
+    border-radius: 10%;
+    height: 40rem;
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; /* Adjust spacing */
+    padding: 2rem; /* Add padding */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: add shadow for depth */
+}
+
+input {
+    width: 80%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background-color: #243447; /* Lighten the background */
+    border: 2px solid #30383B; /* Make the border more visible */
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions for focus and hover */
+}
+
+input::placeholder {
+    color: #B0BEC5; /* Lighten the placeholder text for better contrast */
+}
+
+input:hover,
+input:focus {
+    border-color: #1CA1F2; /* Highlight color for hover and focus */
+    box-shadow: 0 0 0 2px rgba(28, 161, 242, 0.3); /* Subtle glow effect on focus and hover */
+    outline: none;
+}
+
+button {
+    width: 80%;
+    padding: 1rem;
+    background-color: #1CA1F2; /* Use a brighter color for the button */
+    border: none;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s; /* Transition for color and transform on hover */
+    margin-bottom: 2rem; /* Add some space at the bottom */
+}
+
+button:hover {
+    background-color: #1482C6; /* A slightly darker shade for the hover state */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+button:active {
+    transform: translateY(1px); /* Slight push effect on click */
+}

@@ -12,8 +12,8 @@ export class AuthComponent {
   public room! : string ;
 
   constructor(private socketService: SocketService , private router: Router){
-    this.room = "room name";
-    this.username = "userame";
+    this.room = "";
+    this.username = "";
   }
 
   ngOnInit(): void {
