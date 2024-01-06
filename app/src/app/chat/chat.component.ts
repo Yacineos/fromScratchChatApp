@@ -9,13 +9,16 @@ import {User} from '../../../../interfaces/user';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent {
-  message! : string ;
-  messages: string[];
+  messageInput! : string ;
+  messages: string[] = [];
   usersList : User[] = [];
   private userJoinedSubscription!: Subscription ;
   private userListSubscription!: Subscription;
+  private messageSubscription!: Subscription;
+
+
   constructor(private socketService: SocketService, private router: Router){
-    this.messages = [];
+
   }
 
   
@@ -34,13 +37,23 @@ export class ChatComponent {
     })
 
 
+    this.messageSubscription = this.socketService.message$.subscribe((message) => {
+      this.messages.push(message.username);
+      this.messages.push(message.message);
+    })
+
+
+
+
+
   }
 
   ngOnDestroy(){
     this.userListSubscription.unsubscribe();
+    this.messageSubscription.unsubscribe();
   }
   sendMessage(){
-    this.socketService.sendMessage(this.message);
+    this.socketService.sendMessage(this.messageInput);
   }
   
   //function called when the disconnect button is clicked 

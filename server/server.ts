@@ -13,7 +13,7 @@
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from './../interfaces/socket-events';
-import { User } from '../interfaces/user';
+import { User, UserMessage } from '../interfaces/user';
 
 const httpServer = createServer();
 
@@ -65,8 +65,13 @@ io.on("connection", (socket) => {
 
     // if the current user send a message we diffuse it to the rooom
     socket.on("message",(message) =>{
-        console.log("the user "+socket.data.username +" said : "+message +" to the room :"+ socket.data.room);
-        socket.to(socket.data.room).emit("message",""+message);
+        const user = getUser(socket.id);
+        if(user){
+            console.log("the user said : "+message +" to the room ");
+            let userMessage : UserMessage = {message : message, username : user.name};
+
+            io.to(user.room).emit("message", userMessage);
+        }
     })
 
     //if user disconnect -> inform all others in the room

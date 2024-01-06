@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {io , Socket} from 'socket.io-client';
 import {ServerToClientEvents , ClientToServerEvents} from '../../../interfaces/socket-events';
-import { User } from '../../../interfaces/user';
+import { User, UserMessage } from '../../../interfaces/user';
 
 @Injectable({ providedIn: 'root' })
 /*
@@ -18,7 +18,8 @@ import { User } from '../../../interfaces/user';
 export class SocketService {
   private url = 'http://localhost:3000'; // your server url
   private socket: Socket<ServerToClientEvents, ClientToServerEvents> ;
-  private messages: string= " ";
+  private messagesSource = new Subject<UserMessage>();
+  message$ = this.messagesSource.asObservable();
   private userJoinedSource = new Subject<string>();
   userJoined$ = this.userJoinedSource.asObservable();
   private usersListSource = new Subject<User[]>();
@@ -26,9 +27,15 @@ export class SocketService {
 
   constructor() { 
     this.socket = io(this.url);
+    
     this.socket.on('usersList', (usersList: User[]) => {
       this.usersListSource.next(usersList);
     });
+
+    this.socket.on('message',(userMessage) => {
+      this.messagesSource.next(userMessage);
+    });
+
   }
     // Add other event listeners as needed
 

@@ -1,7 +1,7 @@
-import {User} from "./user";
+import {User, UserMessage} from "./user";
 export interface ServerToClientEvents {
     userJoined: (message: string) => void ;
-    message: (message:string) => void;
+    message: (userMessage : UserMessage) => void;
     left: (message: string)=> void;
     usersList: (usersList:User[]) => void ;
   }
