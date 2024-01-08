@@ -1,0 +1,94 @@
+#chat-container {
+    background-color: #16242D;
+    border-radius: 10%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    width: 35rem; /* Adjust the width as needed */
+    height: 45rem; /* Adjust the height as needed */
+    margin: 2rem;
+    padding: 2rem;
+    overflow: hidden; /* To maintain the border-radius effect */
+}
+
+#upper-chat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+#disconnect {
+    background-color: #dc3545; /* Red for disconnect to indicate a stop action */
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 2rem;
+    transition: background-color 0.3s;
+}
+
+#disconnect:hover {
+    background-color: #c82333;
+}
+
+#users-list {
+    flex-grow: 1;
+    color: #B0BEC5;
+}
+
+#users {
+    list-style: none;
+    padding: 0;
+}
+
+#message-display {
+    flex-grow: 1;
+    background-color: #243447; /* Slightly lighter than container background */
+    border-radius: 4px;
+    padding: 10px;
+    overflow-y: auto; /* For scrolling */
+}
+
+#messages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+}
+
+#input-area {
+    display: flex;
+    margin-top: 1rem;
+}
+
+#message-input {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #30383B;
+    border-radius: 4px;
+    background-color: #243447;
+    color: #FFFFFF;
+}
+
+#send-message {
+    background-color: #1CA1F2;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#send-message:hover {
+    background-color: #1482C6;
+}
+
+
+#user{
+    display: inline-block;
+}

@@ -1,14 +1,17 @@
 <div id="chat-container">
-    <button id="disconnect" (click)="disconnect()">
-        disconnect
-    </button>
-    <div id="users-list">
-        Users in room:
-        <ul id="users">
-            <li *ngFor="let user of usersList">{{ user.name }}</li>
-        </ul>
+    <div id="upper-chat">
+        <button id="disconnect" (click)="disconnect()">
+            disconnect
+        </button>
+        <div id="users-list">
+            Users in room:
+            <ul id="users">
+                <li id="user" *ngFor="let user of usersList">{{ user.name }} ,</li>
+            </ul>
+        </div>
     </div>
-    <div id="message-display">
+    
+    <div #scrollMe id="message-display">
         <ul id="messages">
             <li *ngFor="let message of messages">{{message}}</li>
         </ul>

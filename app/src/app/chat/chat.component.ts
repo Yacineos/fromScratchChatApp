@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,10 @@ import {User} from '../../../../interfaces/user';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent {
+  
+  @ViewChild("scrollMe") private myScroller! : ElementRef ;
+  
+  
   messageInput! : string ;
   messages: string[] = [];
   usersList : User[] = [];
@@ -17,12 +21,16 @@ export class ChatComponent {
   private messageSubscription!: Subscription;
 
 
-  constructor(private socketService: SocketService, private router: Router){
 
+  constructor(private socketService: SocketService, private router: Router){
   }
 
   
   ngOnInit(): void {
+
+    this.scrollToBottom();
+
+
     const username = sessionStorage.getItem('username');
     const room = sessionStorage.getItem('room');
 
@@ -42,11 +50,12 @@ export class ChatComponent {
       this.messages.push(message.message);
     })
 
-
-
-
-
   }
+
+
+  ngAfterViewChecked() {        
+    this.scrollToBottom();        
+  } 
 
   ngOnDestroy(){
     this.userListSubscription.unsubscribe();
@@ -64,6 +73,12 @@ export class ChatComponent {
     this.socketService.disconnect(sessionStorage.getItem('username')??"");
     sessionStorage.clear();
     this.router.navigate(['/']);
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScroller.nativeElement.scrollTop = this.myScroller.nativeElement.scrollHeight;
+    } catch(err) { } 
   }
 
 }
