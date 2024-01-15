@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
         const user = getUser(socket.id);
         if(user){
             console.log("the user said : "+message +" to the room ");
-            let userMessage : UserMessage = {message : message, username : user.name};
+            let userMessage : UserMessage = {message : message, username : user.name , currentUser:false};
 
             io.to(user.room).emit("message", userMessage);
         }
