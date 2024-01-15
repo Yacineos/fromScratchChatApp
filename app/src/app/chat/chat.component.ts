@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SocketService } from '../socket.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import {User} from '../../../../interfaces/user';
+import {User, UserMessage} from '../../../../interfaces/user';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -14,7 +14,7 @@ export class ChatComponent {
   
   
   messageInput! : string ;
-  messages: string[] = [];
+  messages: UserMessage[] = [];
   usersList : User[] = [];
   private userJoinedSubscription!: Subscription ;
   private userListSubscription!: Subscription;
@@ -31,11 +31,11 @@ export class ChatComponent {
     this.scrollToBottom();
 
 
-    const username = sessionStorage.getItem('username');
+    const currentUser = sessionStorage.getItem('username')?? " ";
     const room = sessionStorage.getItem('room');
 
-    if(username && room){
-      this.socketService.userJoinRoom(username,room);
+    if(currentUser && room){
+      this.socketService.userJoinRoom(currentUser,room);
     }else{
       this.router.navigate(['/']);
     }
@@ -45,9 +45,12 @@ export class ChatComponent {
     })
 
 
-    this.messageSubscription = this.socketService.message$.subscribe((message) => {
-      this.messages.push(message.username);
-      this.messages.push(message.message);
+    this.messageSubscription = this.socketService.message$.subscribe((userMessage) => { 
+      userMessage.currentUser = userMessage.username === currentUser;
+
+      this.messages.push(userMessage)
+      //this.messages.push(message.currentUser);
+      //this.messages.push(message.message);
     })
 
   }

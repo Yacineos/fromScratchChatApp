@@ -99,7 +99,7 @@ function activateUser(id: string ,name: string ,room:string): User{
     const newUser = {id , name, room};
 
     UsersState.setUsers([
-        ...UsersState.users.filter(user => (user.id !== id)), newUser
+        ...UsersState.users.filter(user => (user.id !== id && user.name!==name)), newUser
     ]);
     return newUser ;
 }

@@ -13,7 +13,7 @@
     
     <div #scrollMe id="message-display">
         <ul id="messages">
-            <li *ngFor="let message of messages">{{message}}</li>
+            <li *ngFor="let message of messages" [ngClass]=" message.currentUser ? 'current-user-message' : 'non-current-user-message' ">{{message.username}} : {{message.message}}</li>
         </ul>
     </div>
     <div id="input-area">

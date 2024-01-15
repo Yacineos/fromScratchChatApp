@@ -50,13 +50,17 @@
     border-radius: 4px;
     padding: 10px;
     overflow-y: auto; /* For scrolling */
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 #messages {
     list-style: none;
     margin: 0;
     padding: 0;
-    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 #input-area {
@@ -91,4 +95,91 @@
 
 #user{
     display: inline-block;
+}
+
+.current-user-message{
+    align-self: flex-end;
+    background-color: #DCF8C6; /* Light blue background for current user */
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
+    max-width: 80%;
+    color: #000;
+
+}
+
+.non-current-user-message{
+    align-self: flex-start;
+    background-color: #ECECEC; /* Light grey background for others */
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
+    max-width: 80%;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    #chat-container {
+        width: 90vw; /* Make the chat container take full width on smaller screens */
+        height: 70vh; /* Make the chat container take full height on smaller screens */
+        margin: 0; /* Remove margin to fit the screen */
+        border-radius: 0; /* Reset border-radius for full screen width */
+    }
+
+    #upper-chat {
+        flex-direction: column; /* Stack disconnect button and user list vertically */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    #disconnect {
+        margin: 0 0 1rem 0; /* Adjust margin for disconnect button */
+    }
+
+    #input-area {
+        flex-direction: column; /* Stack input and send button vertically */
+        width: 100%;
+    }
+
+    #message-input {
+        width: 90%; /* Make input take full width */
+        margin: 0 0 1rem 0; /* Adjust margin */
+    }
+
+    #send-message {
+        width: 100%; /* Make send button take full width */
+    }
+
+    .current-user-message,
+    .non-current-user-message {
+        max-width: 100%; /* Allow messages to take full width */
+    }
+}
+
+@media (max-width: 480px) {
+
+    img {
+        height: 7rem; 
+        width: 7rem;
+    }
+
+
+    #users-list {
+        display: none; /* Hide the users list on very small screens */
+    }
+
+    #message-display,
+    #input-area {
+        padding: 5px; /* Reduce padding for a larger viewable area */
+    }
+
+    #message-input,
+    #send-message {
+        padding: 8px; /* Adjust padding for better touch targets */
+    }
+
+    .current-user-message,
+    .non-current-user-message {
+        margin: 3px; /* Reduce margin between messages */
+        padding: 8px; /* Reduce padding inside message bubbles */
+    }
 }

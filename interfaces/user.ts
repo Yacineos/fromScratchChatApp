@@ -7,4 +7,5 @@ export interface User {
 export interface UserMessage {
     username : string ;
     message : string ;
+    currentUser: boolean;
 }
