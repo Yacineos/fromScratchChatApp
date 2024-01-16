@@ -16,7 +16,7 @@ import { User, UserMessage } from '../../../interfaces/user';
     - who left (optional)
     */
 export class SocketService {
-  private url = 'http://localhost:3000'; // your server url
+  private url = 'https://from-scratch-chat-app-server.vercel.app/'; // your server url
   private socket: Socket<ServerToClientEvents, ClientToServerEvents> ;
   private messagesSource = new Subject<UserMessage>();
   message$ = this.messagesSource.asObservable();
