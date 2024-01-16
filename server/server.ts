@@ -24,7 +24,7 @@ const io = new Server<
   SocketData
 >(httpServer, {
     cors: {
-      origin: "http://localhost:4200"
+      origin: "https://from-scratch-chat-app.vercel.app/"
     }}
 );
 
