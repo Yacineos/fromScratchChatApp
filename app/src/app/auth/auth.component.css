@@ -73,3 +73,10 @@ button:hover {
 button:active {
     transform: translateY(1px); /* Slight push effect on click */
 }
+
+
+@media (max-width: 768px) {
+    #login-container{
+        width: 90vw;
+    }
+}
