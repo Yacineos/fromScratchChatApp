@@ -11,12 +11,12 @@ import { User, UserMessage } from '../../../interfaces/user';
     - send messages to all clients connected to that room
     - receives messages when connected to a room
     - knowing who is typing (optional)
-    - list of all connected users (optional)
+    - list of all connected users 
     - who joined the room (optional)
     - who left (optional)
     */
 export class SocketService {
-  private url = 'https://from-scratch-chat-app-server.vercel.app/'; // your server url
+  private url = 'https://my-simple-chat-app-server-n4bxqy4mbq-ew.a.run.app/'; // your server url
   private socket: Socket<ServerToClientEvents, ClientToServerEvents> ;
   private messagesSource = new Subject<UserMessage>();
   message$ = this.messagesSource.asObservable();
